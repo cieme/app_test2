@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>app 测试2</h2>
+</body>
+<script>
+    /*    androidSchema: 'scheme://com.TaoBao/', */
+    var APPCommon = {
+        iphoneSchema: 'weixin:// ',
+        iphoneDownUrl: 'https://www.baidu.com',
+        androidSchema: 'weixin:// ',
+        androidDownUrl: 'https://www.baidu.com',
+        openApp: function () {
+            var this_ = this;
+            //微信
+            if (this_.isWeixin()) {
+                $(".weixin-tip").css("height", $(window).height());
+                $(".weixin-tip").show();
+                $('.weixin-tip').on('touchstart', function () {
+                    $(".weixin-tip").hide();
+                });
+
+            } else {//非微信浏览器
+                if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+                    var loadDateTime = new Date();
+                    window.setTimeout(function () {
+                        var timeOutDateTime = new Date();
+                        if (timeOutDateTime - loadDateTime < 5000) {
+                            window.location = this_.iphoneDownUrl;//ios下载地址
+                        } else {
+                            window.close();
+                        }
+                    }, 25);
+                    window.location = this.iphoneSchema;
+                } else if (navigator.userAgent.match(/android/i)) {
+                    try {
+                        window.location = this_.androidSchema;
+    
+                    } catch (e) {                     setTimeout(function () {
+                            window.location = this_.androidDownUrl; //android下载地址
+
+                        }, 500);}
+                }
+            }
+        },
+        isWeixin: function () { //判断是否是微信
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+    };
+    APPCommon.openApp();
+</script>
+
+</html>
