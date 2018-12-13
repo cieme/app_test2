@@ -43,11 +43,13 @@
                 } else if (navigator.userAgent.match(/android/i)) {
                     try {
                         window.location = this_.androidSchema;
-    
-                    } catch (e) {                     setTimeout(function () {
+                        setTimeout(function () {
                             window.location = this_.androidDownUrl; //android下载地址
 
-                        }, 500);}
+                        }, 500);
+                    } catch (e) {
+
+                    }
                 }
             }
         },
